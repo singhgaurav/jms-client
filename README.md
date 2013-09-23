@@ -1,4 +1,7 @@
-Problem Statement : 
+While at my previous client, I worked on a hedge fund project where I wrote Generic Java-JMS Trigger Client  
+For this example, I attempted to recreate that here with clean and neat design. 
+
+
 Write Java client to send scheduled (using autosys for example) JMS message to execute 
 ReportRunner, SyncRunner, ReconciliationRunner at the consumer side. Runner requires specific 
 parameters and parameter-value to process particular report, sync or reconcilliation. 
@@ -14,5 +17,5 @@ with each runner specifying their command line flags in their specific json conf
 Objective : 
 Objective here is to demonstrate programming, and design style (service oriented and injecting dependencies). 
 Gluing together important frameworks and api's like Spring DI, JMS, Embedded Active MQ Broker, JUnit, Mockito, Maven, 
-Logging with Logback and Slf4j etc attempt is the demonstrate a cohesive working setup. 
+Logging with Logback and Slf4j etc attempt is the demonstrate a cohesive working setup with some practical usecase. 
 
