@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author gsing5
- * 
+ * Basic JMS Message producer service implementation 
  */
 
 @Service("basicJmsService")
@@ -38,6 +38,7 @@ public class BasicJMSClientService implements JMSClientService {
 		if (text == null)
 			throw new IllegalArgumentException("Input is null");
 
+		logger.info("Sending Message : " + text);
 		template.send(new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
@@ -46,6 +47,7 @@ public class BasicJMSClientService implements JMSClientService {
 				return message;
 			}
 		});
+		logger.info("Sending Successful. ");
 
 	}
 
@@ -53,6 +55,8 @@ public class BasicJMSClientService implements JMSClientService {
 	public void sendToQueue(final Map<String, String> map) {
 		if (map == null)
 			throw new IllegalArgumentException("Input is null");
+		
+		logger.info("Sending Map Message : " + map.toString());
 
 		template.send(new MessageCreator() {
 			@Override
@@ -64,6 +68,8 @@ public class BasicJMSClientService implements JMSClientService {
 				return message;
 			}
 		});
+		
+		logger.info("Sending Successful. ");
 	}
 	
 	public void setTemplate(JmsTemplate template) {

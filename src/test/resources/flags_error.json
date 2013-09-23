@@ -1,0 +1,11 @@
+/**
+* The idea is to be able to configure the number and name of argument 
+* and keep this configuration outside code. 
+*/
+[
+{"name":"report", "type":"string", "description":"Name of the report to execute", "hasArg":"Y"},
+{"name":"firm", "type":"string", "description":"Firm Name", "hasArg":"Y"} // missing comma
+{"name":"portfolio", "type":"string", "description":"Portfolio Name", "hasArg":"Y"},
+{"name":"periodEndDate", "type":"number", "hasArg":"Y"},
+{"name":"periodStartDate", "type":"number", "hasArg":"Y"}
+]

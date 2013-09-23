@@ -61,6 +61,16 @@ public class BasicJMSClientServiceTest {
 	@Test
 	public final void testSendToQueueMapOfStringString() {
 		
+		Map<String, String> my_map = new HashMap<String, String>();
+		
+		my_map.put("firm", "CreditSwiss");
+		my_map.put("periodStartDate", "20131010000000");
+		my_map.put("periodEndDate", "20131010235959");
+		my_map.put("report", "DailyTransactionReport");
+		
+		service.sendToQueue(my_map);
+		
+		verify(mockTemplate, times(1)).send(any(MessageCreator.class));
 	}
 
 }

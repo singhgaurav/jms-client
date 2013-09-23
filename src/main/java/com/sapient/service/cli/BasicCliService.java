@@ -32,8 +32,8 @@ import com.sapient.service.jms.JMSClientService;
 /**
  * @author gsing5
  * 
- *         Cli Services initialize itself with a json flag file. Service method
- *         create a key-value pair of the input (String array) passed.
+ *  Cli Services initialize itself with a json flag file. Service method
+ *  create a key-value pair of the input (String array) passed.
  * 
  */
 
@@ -52,6 +52,8 @@ public class BasicCliService implements InitializingBean, CliService {
 	
 	@Override
 	public Map<String, String> parse(String[] args) throws Exception {
+		if(args == null)
+			throw new IllegalArgumentException("Input shouldn't be null.");
 		logger.info("Starting input argument parse.");
 		CommandLineParser parser = new BasicParser();
 		CommandLine cmd;
@@ -107,6 +109,10 @@ public class BasicCliService implements InitializingBean, CliService {
 				createCliOptions(flagList);
 			}
 		} catch (IOException e) {
+			logger.error("Parsing exception" + e.getMessage());
+			throw new Exception("Error in parsing flag file.", e);
+		}catch (Exception e) {
+			logger.error("Parsing exception" + e.getMessage());
 			throw new Exception("Error in parsing flag file.", e);
 		}
 	}
