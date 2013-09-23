@@ -17,6 +17,8 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,6 +27,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.sapient.service.jms.JMSClientService;
 
 /**
  * @author gsing5
@@ -37,24 +40,36 @@ import com.google.gson.Gson;
 @Service("basicCliService")
 @Scope(value = "singleton")
 public class BasicCliService implements InitializingBean, CliService {
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(BasicCliService.class);
 
 	@Autowired
 	private FlagResource resourceFile;
 
 	private final Options options = new Options();
 
+	
 	@Override
 	public Map<String, String> parse(String[] args) throws Exception {
+		logger.info("Starting input argument parse.");
 		CommandLineParser parser = new BasicParser();
 		CommandLine cmd;
 		try {
 			cmd = parser.parse(options, args);
+			logger.info("Parsing successful");
 			return createKeyValuePair(cmd);
 		} catch (ParseException e) {
+			logger.error("Parsing exception" + e.getMessage());
 			throw new Exception("Could not parse", e);
 		}
 	}
 
+	/**
+	 * Return Key-Value pair for input array arguments.
+	 * @param cmd
+	 * @return
+	 */
 	private Map<String, String> createKeyValuePair(CommandLine cmd) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (Object o_option : options.getOptions()) {
@@ -67,8 +82,10 @@ public class BasicCliService implements InitializingBean, CliService {
 	}
 
 	/**
+	 * 
 	 * Spring executed post construct method will load the flag file and
 	 * generate CLI Options
+	 * 
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -79,6 +96,7 @@ public class BasicCliService implements InitializingBean, CliService {
 
 		Resource flagFile = new ClassPathResource(resourceFile.getFile());
 
+		logger.info("Using flag file : " + flagFile.getURL());
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
 				flagFile.getInputStream()))) {
 			Gson gson = new Gson();
