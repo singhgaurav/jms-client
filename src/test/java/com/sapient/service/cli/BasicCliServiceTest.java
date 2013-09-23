@@ -3,8 +3,6 @@
  */
 package com.sapient.service.cli;
 
-import static org.junit.Assert.fail;
-
 import java.util.Map;
 
 import org.junit.Assert;
